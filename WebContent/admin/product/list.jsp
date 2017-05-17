@@ -1,4 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="common.board.PagingManager"%>
+<%@ page contentType="text/html;charset=utf-8"%>
+<%! PagingManager pm = new PagingManager(); %>
+<%
+	List list = new ArrayList();
+	list.add("ì‚¬ê³¼");
+	list.add("ë”¸ê¸°");
+	list.add("ì˜¤ë Œì§€");
+	pm.init(request, list);
+%>
 <html>
 <head>
 <title></title>
@@ -18,8 +29,8 @@ td{font-size:9pt}
 <tr valign="middle">
   	<td height="30" align="right">
 	<select name="sellType" style="width:170px">
-        <option value="">¡å »óÇ°°Ë»ö</option>
-        <option value="new" >±âÈ¹»óÇ°</option>
+        <option value="">â–¼ ìƒí’ˆê²€ìƒ‰</option>
+        <option value="new" >ê¸°íšìƒí’ˆ</option>
       </select> 
 	<img src="/admin/images/bt_search.gif"  onClick="sendEventProduct();" style="cursor:hand">	
 	</td>
@@ -37,16 +48,16 @@ td{font-size:9pt}
 	<tr height="35" align="center">
 		<td width="38" bgcolor="#EFEFEF" class="top_bg"><input type="checkbox" style="background:yellow" name="chAll" onClick="checkAll()"></td>        
 		<td width="38" bgcolor="#EFEFEF" class="top_bg"><strong>No</strong></td>
-	    <td width="161" bgcolor="#EFEFEF" class="top_bg"><strong>ÀÌ¹ÌÁö</strong></td>
-        <td width="130" bgcolor="#EFEFEF" class="top_bg"><strong>»óÇ°¸í</strong></td>
-        <td width="106" bgcolor="#EFEFEF" class="top_bg"><strong>°¡°Ý</strong></td>
-	    <td width="85" bgcolor="#EFEFEF" class="top_bg"><strong>ÇÒÀÎ°¡</strong></td>
-        <td width="77" bgcolor="#EFEFEF" class="top_bg"><strong>»ö»ó</strong></td>
-	    <td width="65" bgcolor="#EFEFEF" class="top_bg"><strong>»çÀÌÁî</strong></td>
-	    <td width="69" bgcolor="#EFEFEF" class="top_bg"><strong>Á¦Á¶»ç</strong></td>
-	    <td width="120" bgcolor="#EFEFEF" class="top_bg"><strong>ºê·£µå</strong></td>
-	    <td width="99" bgcolor="#EFEFEF" class="top_bg"><strong>Àç°í·®</strong></td>
-	    <td width="95" bgcolor="#EFEFEF" class="top_bg"><strong>Àû¸³À²</strong></td>
+	    <td width="161" bgcolor="#EFEFEF" class="top_bg"><strong>ì´ë¯¸ì§€</strong></td>
+        <td width="130" bgcolor="#EFEFEF" class="top_bg"><strong>ìƒí’ˆëª…</strong></td>
+        <td width="106" bgcolor="#EFEFEF" class="top_bg"><strong>ê°€ê²©</strong></td>
+	    <td width="85" bgcolor="#EFEFEF" class="top_bg"><strong>í• ì¸ê°€</strong></td>
+        <td width="77" bgcolor="#EFEFEF" class="top_bg"><strong>ìƒ‰ìƒ</strong></td>
+	    <td width="65" bgcolor="#EFEFEF" class="top_bg"><strong>ì‚¬ì´ì¦ˆ</strong></td>
+	    <td width="69" bgcolor="#EFEFEF" class="top_bg"><strong>ì œì¡°ì‚¬</strong></td>
+	    <td width="120" bgcolor="#EFEFEF" class="top_bg"><strong>ë¸Œëžœë“œ</strong></td>
+	    <td width="99" bgcolor="#EFEFEF" class="top_bg"><strong>ìž¬ê³ ëŸ‰</strong></td>
+	    <td width="95" bgcolor="#EFEFEF" class="top_bg"><strong>ì ë¦½ìœ¨</strong></td>
 	    </tr>
     <tr><td colspan="12" height="1" bgcolor="#CCCCCC"></td>
 	</tr>
@@ -61,12 +72,17 @@ td{font-size:9pt}
 <!--Paging Start-->
 
 	<table width="900" cellspacing="2" cellpadding="2" style="font-size:9pt">
+	
+	<% int num = pm.getNum(); %>
+	<% for(int i=1; i<pm.getPageSize();i++){ %>
+	<% if(num<1)break; %>
 	<tr>
-		<td width="100"><a href="regist.asp?busi_type=" class="but"></a></td>
+		<td width="100"><a href="regist.asp?busi_type=" class="but"><%=num-- %></a></td>
 		<td width="170" align="right"></td>
 		<td width="170" align="right">&nbsp;		</td>
 		<td width="198" height="15" align="right" id="form_page"></td>
 	</tr>
+	<% } %>
 	</table>
 
 <!--Paging End-->

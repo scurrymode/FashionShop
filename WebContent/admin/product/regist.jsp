@@ -1,4 +1,12 @@
-<%@ page contentType="text/html;charset=euc-kr"%>
+<%@ taglib uri="http://ckeditor.com" prefix="ckeditor" %>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.fashion.product.TopCategory"%>
+<%@page import="java.util.List"%>
+<%@page import="com.fashion.product.TopCategoryDAO"%>
+<%@ page contentType="text/html;charset=utf-8"%>
+<%! TopCategoryDAO topCategoryDAO = new TopCategoryDAO(); %>
+<% List<TopCategory> topList = topCategoryDAO.selectAll(); %>
 <html>
 <head>
 <title></title>
@@ -10,12 +18,49 @@
 	.style2 {font-weight: bold}
 -->
 </style>
-<script language="javascript">
+<script>
+//ì„œë¸Œ ì¹´í…Œê³ ë¦¬ ëª©ë¡ì„ ìš”ì²­í•˜ì~!
+function getSub(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if(this.readyState ==4 && this.status==200){
+			var obj = JSON.parse(this.responseText);
+			
+			var sub = document.getElementById("sub");
+			//ì§€ìš°ê¸°
+			var len=sub.length;
+			for(var i=0;i<len;i++){
+				sub.remove(0);
+			}
+			
+			//ì±„ìš°ê¸°
+			for(var i = 0; i<obj.subList.length;i++){
+				var op = document.createElement("option");
+				op.text=obj.subList[i].sub_name;
+				op.value=obj.subList[i].sub_id;
+				sub.add(op);
+			}
+		}
+	}
+	xhttp.open("POST", "sub_list.jsp", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("top_id="+form1.top.value);//ìš”ì²­ bodyë¥¼ ì±„ìš´ë‹¤!!
+}
+
+//ìƒí’ˆë“±ë¡
+function regist(){
+	form1.encoding="multipart/form-data";
+	form1.action="regist_db.jsp";
+	form1.submit();
+}
+
+
+
 </script>
 </head>
 <body leftmargin="50" topmargin="0" marginwidth="0" marginheight="0">
 <table width="650" border="0" cellpadding="0" cellspacing="0">
-<form method="post" name="form1" enctype="multipart/form-data">
+<form method="post" name="form1">
 <input type="hidden" name="fileType">
 <tr>
 	<td>&nbsp;</td>
@@ -27,7 +72,7 @@
           <td colspan="2" height="5" bgcolor="#BBBBBB"></td>
         </tr>
         <tr height="30"> 
-          <td height="30" colspan="2" align="center" valign="bottom" bgcolor="#DDDDDD"style="padding-bottom:5"><b> »óÇ° µî·Ï</b></td>
+          <td height="30" colspan="2" align="center" valign="bottom" bgcolor="#DDDDDD"style="padding-bottom:5"><b> ìƒí’ˆ ë“±ë¡</b></td>
         </tr>
         <tr> 
           <td colspan="2" height="1" bgcolor="#BBBBBB"></td>
@@ -36,85 +81,86 @@
           <td colspan="2" height="5"></td>
         </tr>
         <tr> 
-          <td width="100">Ä«Å×°í¸®</td>
+          <td width="100">ì¹´í…Œê³ ë¦¬</td>
           <td class="pd_l10">
-			<select name="category1" onChange="subCategory()">
-				<option value="0">¡å ¼± ÅÃ</option>
+			<select name="top" onChange="getSub()">
+				<option value="0">â–¼ ì„  íƒ</option>
+				<% for(int i=0; i<topList.size();i++){ %>
+				<% TopCategory topCategory = topList.get(i); %>
+				<option value="<%=topCategory.getTop_id()%>"><%=topCategory.getTop_name() %></option>
+				<% } %>
 			</select>
-			<select name="category2">
-				<option value="">¡å ¼± ÅÃ</option>
+			<select name="sub" id="sub">
+				<option value="0">â–¼ ì„  íƒ</option>
 			</select>
 		</td>
         </tr>
         <tr> 
-          <td width="100">Á¦Ç°¸í</td>
-          <td class="pd_l10"><input name="productname" type="text" id="productName" style="width:120px" maxlength="9"></td>
+          <td width="100">ì œí’ˆëª…</td>
+          <td class="pd_l10"><input name="product_name" type="text" id="productName" style="width:120px" maxlength="9"></td>
         </tr>
         <tr> 
-          <td width="100">¼ºº°±¸ºĞ</td>
-          <td class="pd_l10">³²¼º
-            <input type="radio" name="gender" value="MEN">
-&nbsp;&nbsp;¿©¼º
-          <input name="gender" type="radio" value="WOMEN" checked></td>
+          <td width="100">ì„±ë³„êµ¬ë¶„</td>
+          <td class="pd_l10">ë‚¨ì„±
+            <input type="radio" name="gender" value="ë‚¨ì„±">
+&nbsp;&nbsp;ì—¬ì„±
+          <input name="gender" type="radio" value="ì—¬ì„±" checked></td>
         </tr>
         <tr id="pay_id" > 
-          <td width="100">ºê·£µå</td>
+          <td width="100">ë¸Œëœë“œ</td>
           <td class="pd_l10"><input name="brand" type="text" id="brand" style="width:120px" maxlength="9">          </td>
         </tr>
         <tr id="bank_id" >
-          <td>¿ø»êÁö</td>
+          <td>ì›ì‚°ì§€</td>
           <td><span class="pd_l10">
-            <input name="nation" type="text" id="nation" style="width:120px" maxlength="9">
+            <input name="origin" type="text" id="origin" style="width:120px" maxlength="9">
           </span></td>
         </tr>
         <tr id="bank_id" >
-          <td>ÆÇ¸Å °¡°İ</td>
+          <td>íŒë§¤ ê°€ê²©</td>
           <td><span class="pd_l10">
-            <input name="price" type="text" id="price" style="width:120px" maxlength="9">
+            <input name="price" type="text" id="price" style="width:120px; text-align:right" maxlength="9" value="0">
           </span></td>
         </tr>
         <tr id="bank_id" >
-          <td>ÇÒÀÎ°¡°İ</td>
+          <td>í• ì¸ê°€ê²©</td>
           <td><span class="pd_l10">
-            <input name="discount" type="text" id="discount" style="width:120px" maxlength="9">
+            <input name="discount" type="text" id="discount" style="width:120px; text-align:right" maxlength="9" value="0">
           </span></td>
         </tr>
         <tr id="bank_id" >
-          <td>Àû¸³À²</td>
+          <td>ì ë¦½ìœ¨</td>
           <td><span class="pd_l10">
-            <input name="point" type="text" id="ratio" style="width:120px" maxlength="9">
+            <input name="point" type="text" id="point" style="width:120px; text-align:right" maxlength="9" value="0">
           %</span></td>
         </tr>
         <tr id="bank_id" >
-          <td>°£´Ü ¼Ò°³</td>
+          <td>ê°„ë‹¨ ì†Œê°œ</td>
           <td><span class="pd_l10">
             <input name="memo" type="text" id="memo" style="width:400px" maxlength="9">
           </span></td>
         </tr>
         <tr id="bank_id" >
-          <td>»çÀÌÁî</td>
+          <td>ì‚¬ì´ì¦ˆ</td>
           <td><span class="pd_l10">
-            <input name="psize" type="text" id="size" style="width:120px" maxlength="9">
-          * ½°Ç¥·Î ±¸ºĞ ex) 95 , 100 , 105 </span></td>
+            <input name="psize" type="text" id="size" style="width:120px">
+          * ì‰¼í‘œë¡œ êµ¬ë¶„ ex) 95 , 100 , 105 </span></td>
         </tr>
         <tr id="bank_id" >
-          <td>»ö»ó</td>
+          <td>ìƒ‰ìƒ</td>
           <td><span class="pd_l10">
-            <input name="color" type="text" id="color" style="width:120px" maxlength="9">
-* ½°Ç¥·Î ±¸ºĞ ex) blue ,yellow ,red </span></td>
+            <input name="color" type="text" id="color" style="width:120px">
+* ì‰¼í‘œë¡œ êµ¬ë¶„ ex) blue ,yellow ,red </span></td>
         </tr>
         <tr id="bank_id" >
-          <td>Àç°í·®</td>
-          <td><span class="pd_l10">
-            <input name="stock" type="text"  style="width:120px" maxlength="9"></span></td>
-        </tr>
-        <tr id="bank_id" >
-          <td>»óÇ° ÀÌ¹ÌÁö </td>
-          <td><input type="file" name="filename" onChange="preView()"></td>
+          <td>ìƒí’ˆ ì´ë¯¸ì§€ </td>
+          <td><input type="file" name="img"></td>
         </tr>
         <tr> 
-          <td width="100">»ó¼¼ ¼³¸í </td>
-          <td class="pd_l10"><textarea name="detail" cols="80" rows="10" id="content" style="border:1px solid #444444;"></textarea></td>
+          <td width="100">ìƒì„¸ ì„¤ëª… </td>
+          <td class="pd_l10"><textarea name="detail" cols="80" rows="10" id="detail" style="border:1px solid #444444;"></textarea>
+          <ckeditor:replace  replace="detail" basePath="/ckeditor/" />
+          </td>
         </tr>
         <tr> 
           <td colspan="2" height="5" bgcolor="#BBBBBB"></td>
@@ -123,8 +169,8 @@
 	<table width="650" border="0" cellspacing="0" cellpadding="0">
           <tr> 
             <td colspan="2" align="right" style="padding-top:10">
-			<a href="javascript:history.back();" class="but">¸ñ·Ïº¸±â</a>
-            <a href="javascript:regist();" class="but">»óÇ°µî·Ï</a> 
+			<a href="javascript:history.back();" class="but">ëª©ë¡ë³´ê¸°</a>
+            <a href="javascript:regist();" class="but">ìƒí’ˆë“±ë¡</a> 
           </tr>
       </table>
 	  </td>

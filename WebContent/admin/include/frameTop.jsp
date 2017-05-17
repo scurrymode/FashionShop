@@ -1,3 +1,4 @@
+<%@page import="com.fashion.admin.Admin"%>
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <html>
 <head>
@@ -29,11 +30,13 @@ a{text-decoration:none}
 		<table width="186" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
 		<tr>
 			    <td style="padding-top:7px" class='t12b'><strong>
-				&nbsp;´Ô 
+				<%Admin admin = (Admin)session.getAttribute("admin"); 
+					out.print(admin.getName());
+				%>&nbsp;´Ô 
                   </strong><br>
                 &nbsp;¾È³çÇÏ¼¼¿ä.</td>
 			<td><img src="/admin/images/log_icon.gif" width="47" height="30"></td>
-			    <td style="padding-top:7px" class='t12b'> <a href="frameTop.jsp?mode=logout" target="_parent"> 
+			    <td style="padding-top:7px" class='t12b'> <a href="logout.jsp" target="_parent"> 
                 <span><b><font color="#CC0066">·Î±×¾Æ¿ô</font></b></span></a><br>			</td>
 		</tr>
 		</table>		</td>
