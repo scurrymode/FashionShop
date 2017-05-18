@@ -1,8 +1,16 @@
+<%@page import="common.file.FileManager"%>
+<%@page import="com.fashion.product.Product"%>
+<%@page import="com.fashion.product.ProductDAO"%>
 <%@page contentType="text/html; charset=utf-8"%>
+<%! ProductDAO productDAO = new ProductDAO(); %>
+<%
+	String product_id=request.getParameter("product_id");
+	Product product = productDAO.select(Integer.parseInt(product_id));
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
 <style type="text/css">
 <!--
@@ -12,7 +20,7 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-#mainNavi,#sub_category{color:#FFFFFF;text-align:center;font-family:"±º∏≤√º", "µ∏øÚ√º","Arial"}
+#mainNavi,#sub_category{color:#FFFFFF;text-align:center;font-family:"Íµ¥Î¶ºÏ≤¥", "ÎèãÏõÄÏ≤¥","Arial"}
 .style3 {color: #FF0000}
 .style1 {	font-size: 20px;
 	font-weight: bold;
@@ -21,6 +29,13 @@ body {
 
 -->
 </style>
+<script>
+function goCart(){
+	form1.method="post";
+	form1.action="cart.jsp";
+	form1.submit();
+}
+</script>
 </head>
 <body>
 <table align="center" width="970" border="0" cellpadding="0" cellspacing="0">
@@ -48,12 +63,12 @@ body {
       <tr>
         <td height="30"><table width="100%" height="30" border="0" cellpadding="0" cellspacing="0" bgcolor="#000000">
           <tr id="mainNavi" align="center">
-            <td>∏ﬁ¥∫1</td>
-            <td>∏ﬁ¥∫2</td>
-            <td>∏ﬁ¥∫3</td>
-            <td>∏ﬁ¥∫4</td>
-            <td>∏ﬁ¥∫5</td>
-            <td>∏ﬁ¥∫6</td>
+            <td>Î©îÎâ¥1</td>
+            <td>Î©îÎâ¥2</td>
+            <td>Î©îÎâ¥3</td>
+            <td>Î©îÎâ¥4</td>
+            <td>Î©îÎâ¥5</td>
+            <td>Î©îÎâ¥6</td>
           </tr>
         </table></td>
       </tr>
@@ -65,7 +80,7 @@ body {
           <tr height="50">
             <td width="150">&nbsp;</td>
             <td width="10">&nbsp;</td>
-            <td width="810" height="30" >ªÛ¿ß ƒ´≈◊∞Ì∏Æ&lt; «œ¿ß ƒ´≈◊∞Ì∏Æ </td>
+            <td width="810" height="30" >ÏÉÅÏúÑ Ïπ¥ÌÖåÍ≥†Î¶¨&lt; ÌïòÏúÑ Ïπ¥ÌÖåÍ≥†Î¶¨ </td>
           </tr>
           <tr>
             <td width="150" valign="top"></td>
@@ -75,14 +90,20 @@ body {
                 <td width="731" height="102" valign="top"background="images/main_bg05.gif" style="padding-top:10px;"><img src="/images/detail/detail_tltle.gif" width="731" height="67" /></td>
               </tr>
               <tr>
-                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <td>
+                <form name="form1">
+                <input type="hidden" name="product_id" value="<%=product.getProduct_id() %>"/>
+                <input type="hidden" name="img" value="<%=product.getImg() %>"/>
+                <input type="hidden" name="discount" value="<%=product.getDiscount() %>"/>
+                <input type="hidden" name="product_name" value="<%=product.getProduct_name() %>"/>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td width="5" rowspan="2" valign="top"><img src="/images/detail/detail_bg01.gif" width="5" height="25" /></td>
                       <td width="690"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tr>
                             <td width="300"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                  <td height="300"><img src="/images/detail/sample2_img.gif" width="300" height="300" border="1" /></td>
+                                  <td height="300"><img src="/product/<%=product.getProduct_id() %>.<%=FileManager.getExt(product.getImg()) %>" width="300" height="300" border="1" /></td>
                                 </tr>
                                 <tr>
                                   <td height="36" align="center"><img src="/images/detail/detail_btn_view.gif" width="51" height="24" /></td>
@@ -91,24 +112,24 @@ body {
                             <td width="19"></td>
                             <td width="370" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                  <td width="100" height="46" valign="top" style="padding-left:20px; padding-top:10px;"><span class="style1">∫Ú∆˜¥œ</span></td>
+                                  <td width="100" height="46" valign="top" style="padding-left:20px; padding-top:10px;"><span class="style1"><%=product.getProduct_name() %></span></td>
                                   <td width="269" valign="top"></td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_price.gif" width="62" height="12" /></td>
-                                  <td valign="top"><span class="style2" style="text-decoration:line-through">218,000ø¯</span> §—&gt; <span class="style2">148,000ø¯</span></td>
+                                  <td valign="top"><span class="style2" style="text-decoration:line-through"><%=product.getPrice() %>Ïõê</span> „Ö°&gt; <span class="style2"><%=product.getPrice()-product.getDiscount() %>Ïõê</span></td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_point.gif" width="50" height="12" /></td>
-                                  <td valign="top">0ø¯</td>
+                                  <td valign="top"><%=product.getPrice()*(0.01*product.getPoint()) %>Ïõê</td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_brand.gif" width="51" height="12" /></td>
-                                  <td valign="top">∫Ú∆˜¥œ</td>
+                                  <td valign="top"><%=product.getBrand() %></td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_made.gif" width="49" height="12" /></td>
-                                  <td valign="top">maie in china</td>
+                                  <td valign="top">maie in <%=product.getOrigin() %></td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_code.gif" width="63" height="12" /></td>
@@ -121,21 +142,35 @@ body {
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_size.gif" width="51" height="12" /></td>
-                                  <td valign="top"><select name="select">
-                                      <option>º±≈√</option>
+                                  <td valign="top"><select name="psize">
+                                  <% 
+                                  	String size = product.getPsize();
+                                  	String[] sizes=size.split(",");
+                                  %>
+                                  	<% for(int i=0; i<sizes.length;i++){ %>
+                                      <option><%= sizes[i] %></option>
+                                      <% } %>
                                     </select>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_color.gif" width="40" height="13" /></td>
-                                  <td valign="top"><select name="select2">
-                                      <option>º±≈√</option>
+                                  <td valign="top"><select name="color">
+                                  <% 
+                                  	String color = product.getColor();
+                                  	String[] colors=color.split(",");
+                                  %>
+                                  	<% for(int i=0; i<colors.length;i++){ %>
+                                      <option><%= colors[i] %></option>
+                                      <% } %>
                                   </select></td>
                                 </tr>
                                 <tr>
                                   <td height="24" valign="top"><img src="/images/detail/img_count.gif" width="39" height="13" /></td>
-                                  <td valign="top"><select name="select3">
-                                      <option>º±≈√</option>
+                                  <td valign="top"><select name="ea">
+                                  <% for(int i =1; i<=20; i++){ %>
+                                      <option><%=i %></option>
+                                      <% } %>
                                   </select></td>
                                 </tr>
                                 <tr>
@@ -146,7 +181,7 @@ body {
                                   <a href="step1.html">
 	                                  <img src="/images/detail/detail_btn_buy.gif" width="109" height="23" border="0" />
 	                                  </a>&nbsp;
-	                                  <img src="/images/detail/detail_btn_cart.gif" width="109" height="23" onClick="location.href='/shopping/cart.html'"/>
+	                                  <img src="/images/detail/detail_btn_cart.gif" width="109" height="23" onClick="goCart()"/>
 	                                  &nbsp;
 	                                  <img src="/images/detail/detail_btn_wish.gif" width="109" height="23" />
                                   </td>
@@ -159,7 +194,9 @@ body {
                     <tr>
                       <td height="23"></td>
                     </tr>
-                </table></td>
+                </table>
+                </form>
+                </td>
               </tr>
               <tr>
                 <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -223,22 +260,22 @@ body {
                       </table></td>
                     </tr>
                     <tr>
-                      <td><!-- ªÛ«∞πÆ¿« ≈◊¿Ã∫Ì Ω√¿€ ======================================= -->
+                      <td><!-- ÏÉÅÌíàÎ¨∏Ïùò ÌÖåÏù¥Î∏î ÏãúÏûë ======================================= -->
                           <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                             <tr>
                               <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                                   <tr>
-                                    <td><!-- πŸ±˘≈◊¿Ã∫Ì Ω√¿€-->
+                                    <td><!-- Î∞îÍπ•ÌÖåÏù¥Î∏î ÏãúÏûë-->
                                         <table width="100%" border="0" cellpadding="0" cellspacing="3" bgcolor="#F2F2F2">
                                           <tr>
                                             <td bgcolor="#D9D9D9" valign="top"><table width="100%"  border="0" cellspacing="1" cellpadding="0">
                                                 <tr>
-                                                  <td bgcolor="#FFFFFF" valign="top" style="padding:10px;"><!-- ≥ªøÎΩ√¿€-->
+                                                  <td bgcolor="#FFFFFF" valign="top" style="padding:10px;"><!-- ÎÇ¥Ïö©ÏãúÏûë-->
                                                       <table width="100%"  border="0" cellspacing="0" cellpadding="0">
                                                         <tr>
                                                           <td valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
                                                               <tr>
-                                                                <td valign="top"><!-- ¿‘∑¬≈◊¿Ã∫Ì Ω√¿€-->
+                                                                <td valign="top"><!-- ÏûÖÎ†•ÌÖåÏù¥Î∏î ÏãúÏûë-->
                                                                     <table
                                                 id="__psn_QuestionDlg"
                                                 style="display:none;"                                          
@@ -250,7 +287,7 @@ body {
                                                                       </tr>
                                                                       <tr>
                                                                         <td width="4" bgcolor="#EBEBEB"></td>
-                                                                        <td bgcolor="#EBEBEB" valign="top" style="padding-top:5px;" align="center"><!--¿‘∑¬Ω√¿€-->
+                                                                        <td bgcolor="#EBEBEB" valign="top" style="padding-top:5px;" align="center"><!--ÏûÖÎ†•ÏãúÏûë-->
                                                                             <table width="100%"  border="0" cellspacing="0" cellpadding="0">
                                                                               <form method="post" name="__oFormGoodsQA" id="__oFormGoodsQA">
                                                                                 <input type="hidden" name="iCmdObject" value='TGoodsQA' />
@@ -263,24 +300,24 @@ body {
                                                                                 <tr>
                                                                                   <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
                                                                                       <tr>
-                                                                                        <td width="35" style="padding-left:10px;" >¡¶∏Ò</td>
+                                                                                        <td width="35" style="padding-left:10px;" >Ï†úÎ™©</td>
                                                                                         <td><input style="width:97%;"  class="input01" type="text" name="oSubject" size="15" />
                                                                                         </td>
                                                                                       </tr>
                                                                                       <tr>
-                                                                                        <td width="35" style="padding-left:10px;">≥ªøÎ </td>
+                                                                                        <td width="35" style="padding-left:10px;">ÎÇ¥Ïö© </td>
                                                                                         <td><textarea style="width:97%;" name="oMemo"  rows="3"></textarea>
                                                                                         </td>
                                                                                       </tr>
                                                                                   </table></td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                  <td align="right" style="padding-top:3px; padding-bottom:3px; padding-right:10px;"><!-- ¿€º∫¿⁄ ¿‘∑¬ ≈◊¿Ã∫Ì-->
+                                                                                  <td align="right" style="padding-top:3px; padding-bottom:3px; padding-right:10px;"><!-- ÏûëÏÑ±Ïûê ÏûÖÎ†• ÌÖåÏù¥Î∏î-->
                                                                                       <table   border="0" cellspacing="0" cellpadding="0">
                                                                                         <tr>
-                                                                                          <td>¿Ã∏ß
+                                                                                          <td>Ïù¥Î¶Ñ
                                                                                             <input type="text" size="10" name="oName" class="input01">
-                                                                                            ∫Òπ–π¯»£
+                                                                                            ÎπÑÎ∞ÄÎ≤àÌò∏
                                                                                             <input type="password" size="4" name="oPass" class="input01" />
                                                                                           </td>
                                                                                           <td  align="center" style="padding-left:7px;"><a href="javascript:onclick=__ps_GoodsQA_Submit( document.__oFormGoodsQA );">
@@ -288,12 +325,12 @@ body {
                                                                                           </a> </td>
                                                                                         </tr>
                                                                                       </table>
-                                                                                    <!-- ¿€º∫¿⁄ ¿‘∑¬ ≈◊¿Ã∫Ì ≥°-->
+                                                                                    <!-- ÏûëÏÑ±Ïûê ÏûÖÎ†• ÌÖåÏù¥Î∏î ÎÅù-->
                                                                                   </td>
                                                                                 </tr>
                                                                               </form>
                                                                             </table>
-                                                                          <!--¿‘∑¬≥°-->
+                                                                          <!--ÏûÖÎ†•ÎÅù-->
                                                                         </td>
                                                                         <td width="4" bgcolor="#EBEBEB"></td>
                                                                       </tr>
@@ -303,7 +340,7 @@ body {
                                                                         <td width="4" height="4" valign="top"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/table1-4.gif" width="4" height="4" /></td>
                                                                       </tr>
                                                                     </table>
-                                                                  <!-- ¿‘∑¬≈◊¿Ã∫Ì ≥°-->
+                                                                  <!-- ÏûÖÎ†•ÌÖåÏù¥Î∏î ÎÅù-->
                                                                 </td>
                                                               </tr>
                                                           </table></td>
@@ -312,10 +349,10 @@ body {
                                                           <td valign="top" style="padding-top:10px;"><table width="100%"  border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed;">
                                                             <tr>
                                                               <td width="30" height="26" align="center"><span style="padding-top:14px;"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_a.gif" /></span></td>
-                                                              <td style="padding-left:7px;"><a href="javascript:__psuToggleMemoView(0);">π›Ω∫ΩΩ∏≥ø¬</a> &nbsp; <img 
+                                                              <td style="padding-left:7px;"><a href="javascript:__psuToggleMemoView(0);">Î∞òÏä§Ïä¨Î¶ΩÏò®</a> &nbsp; <img 
     onclick="__ps_GoodsQA_Delete(24079);" style="cursor:hand;"
     src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_del.gif" width="11" height="11"  align="absmiddle" /></td>
-                                                              <td width="50" align="center" style="font-size:8pt; color:#909090;">±ËºÆ¬˘</td>
+                                                              <td width="50" align="center" style="font-size:8pt; color:#909090;">ÍπÄÏÑùÏ∞¨</td>
                                                               <td width="40" align="center"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_3.gif" /></td>
                                                               <td width="80" align="center" style="font-size:8pt; color:#909090;">07-08-13 </td>
                                                             </tr>
@@ -328,34 +365,34 @@ body {
                                                                           <td background="/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/line01.gif" height="1"></td>
                                                                         </tr>
                                                                         <tr>
-                                                                          <td style="padding:10px;"> ªÛ«ıææ∞° Ω≈∞Ì¿÷¥¬ π›Ω∫ΩΩ∏≥ø¬ ªÁ¿Ã¡Ó∞° ∏Ó¿Ãø°ø‰</td>
+                                                                          <td style="padding:10px;"> ÏÉÅÌòÅÏî®Í∞Ä Ïã†Í≥†ÏûàÎäî Î∞òÏä§Ïä¨Î¶ΩÏò® ÏÇ¨Ïù¥Ï¶àÍ∞Ä Î™áÏù¥ÏóêÏöî</td>
                                                                         </tr>
                                                                     </table></td>
                                                                   </tr>
                                                                   <tr>
                                                                     <td align="center" valign="top" style="padding-top:14px;"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_a.gif" /></td>
-                                                                    <td colspan="5" ><!-- ∞¸∏Æ¿⁄ ¥‰∫Ø≥ªøÎ -->
+                                                                    <td colspan="5" ><!-- Í¥ÄÎ¶¨Ïûê ÎãµÎ≥ÄÎÇ¥Ïö© -->
                                                                         <table width="100%"  border="0" cellspacing="0" cellpadding="0">
                                                                           <tr>
                                                                             <td background="/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/line01.gif" height="1"></td>
                                                                           </tr>
                                                                           <tr>
-                                                                            <td style="padding:10px;" valign="top"><p>æ»≥Á«œººø‰ »ƒ¡Ó¿‘¥œ¥Ÿ</p>
+                                                                            <td style="padding:10px;" valign="top"><p>ÏïàÎÖïÌïòÏÑ∏Ïöî ÌõÑÏ¶àÏûÖÎãàÎã§</p>
                                                                                 <br />
-                                                                                <p>¿Ã¡¶«∞¿∫ ªÛ«ıææ ∞≥¿Œº“¿Â¿ÃΩ√±∏ø©</p>
+                                                                                <p>Ïù¥Ï†úÌíàÏùÄ ÏÉÅÌòÅÏî® Í∞úÏù∏ÏÜåÏû•Ïù¥ÏãúÍµ¨Ïó¨</p>
                                                                               <br />
-                                                                                <p>ΩŒ¿Ã¡Ó¥¬ 250¿‘¥œ¥Ÿ^^</p>
+                                                                                <p>Ïã∏Ïù¥Ï¶àÎäî 250ÏûÖÎãàÎã§^^</p>
                                                                               <br />
-                                                                                <p>¡¡¿∫ «œ∑Á ∫∏≥ªººø‰</p>
+                                                                                <p>Ï¢ãÏùÄ ÌïòÎ£® Î≥¥ÎÇ¥ÏÑ∏Ïöî</p>
                                                                               <br />
-                                                                                <p>∞®ªÁ«’¥œ¥Ÿ</p>
+                                                                                <p>Í∞êÏÇ¨Ìï©ÎãàÎã§</p>
                                                                               <br />
                                                                                 <p>&nbsp;</p>
                                                                               <br />
                                                                                 <span class="text02">TK!! (07-08-13 11:16)</span> </td>
                                                                           </tr>
                                                                         </table>
-                                                                      <!-- ∞¸∏Æ¿⁄ ¥‰∫Ø≥ªøÎ ≥° -->
+                                                                      <!-- Í¥ÄÎ¶¨Ïûê ÎãµÎ≥ÄÎÇ¥Ïö© ÎÅù -->
                                                                     </td>
                                                                   </tr>
                                                               </table></td>
@@ -364,10 +401,10 @@ body {
                                                             <table width="100%"  border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed;">
                                                               <tr>
                                                                 <td width="30" height="26" align="center"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_q.gif" /></td>
-                                                                <td style="padding-left:7px;"><a href="javascript:__psuToggleMemoView(0);">π›Ω∫ΩΩ∏≥ø¬</a> &nbsp; <img 
+                                                                <td style="padding-left:7px;"><a href="javascript:__psuToggleMemoView(0);">Î∞òÏä§Ïä¨Î¶ΩÏò®</a> &nbsp; <img 
     onclick="__ps_GoodsQA_Delete(24079);" style="cursor:hand;"
     src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_del.gif" width="11" height="11"  align="absmiddle" /></td>
-                                                                <td width="50" align="center" style="font-size:8pt; color:#909090;">±ËºÆ¬˘</td>
+                                                                <td width="50" align="center" style="font-size:8pt; color:#909090;">ÍπÄÏÑùÏ∞¨</td>
                                                                 <td width="40" align="center"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_3.gif" /></td>
                                                                 <td width="80" align="center" style="font-size:8pt; color:#909090;">07-08-13 </td>
                                                               </tr>
@@ -380,49 +417,49 @@ body {
                                                                             <td background="/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/line01.gif" height="1"></td>
                                                                           </tr>
                                                                           <tr>
-                                                                            <td style="padding:10px;"> ªÛ«ıææ∞° Ω≈∞Ì¿÷¥¬ π›Ω∫ΩΩ∏≥ø¬ ªÁ¿Ã¡Ó∞° ∏Ó¿Ãø°ø‰</td>
+                                                                            <td style="padding:10px;"> ÏÉÅÌòÅÏî®Í∞Ä Ïã†Í≥†ÏûàÎäî Î∞òÏä§Ïä¨Î¶ΩÏò® ÏÇ¨Ïù¥Ï¶àÍ∞Ä Î™áÏù¥ÏóêÏöî</td>
                                                                           </tr>
                                                                       </table></td>
                                                                     </tr>
                                                                     <tr>
                                                                       <td align="center" valign="top" style="padding-top:14px;"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/icon_a.gif" /></td>
-                                                                      <td colspan="5" ><!-- ∞¸∏Æ¿⁄ ¥‰∫Ø≥ªøÎ -->
+                                                                      <td colspan="5" ><!-- Í¥ÄÎ¶¨Ïûê ÎãµÎ≥ÄÎÇ¥Ïö© -->
                                                                           <table width="100%"  border="0" cellspacing="0" cellpadding="0">
                                                                             <tr>
                                                                               <td background="/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/line01.gif" height="1"></td>
                                                                             </tr>
                                                                             <tr>
-                                                                              <td style="padding:10px;" valign="top"><p>æ»≥Á«œººø‰ »ƒ¡Ó¿‘¥œ¥Ÿ</p>
+                                                                              <td style="padding:10px;" valign="top"><p>ÏïàÎÖïÌïòÏÑ∏Ïöî ÌõÑÏ¶àÏûÖÎãàÎã§</p>
                                                                                   <br />
-                                                                                  <p>¿Ã¡¶«∞¿∫ ªÛ«ıææ ∞≥¿Œº“¿Â¿ÃΩ√±∏ø©</p>
+                                                                                  <p>Ïù¥Ï†úÌíàÏùÄ ÏÉÅÌòÅÏî® Í∞úÏù∏ÏÜåÏû•Ïù¥ÏãúÍµ¨Ïó¨</p>
                                                                                 <br />
-                                                                                  <p>ΩŒ¿Ã¡Ó¥¬ 250¿‘¥œ¥Ÿ^^</p>
+                                                                                  <p>Ïã∏Ïù¥Ï¶àÎäî 250ÏûÖÎãàÎã§^^</p>
                                                                                 <br />
-                                                                                  <p>¡¡¿∫ «œ∑Á ∫∏≥ªººø‰</p>
+                                                                                  <p>Ï¢ãÏùÄ ÌïòÎ£® Î≥¥ÎÇ¥ÏÑ∏Ïöî</p>
                                                                                 <br />
-                                                                                  <p>∞®ªÁ«’¥œ¥Ÿ</p>
+                                                                                  <p>Í∞êÏÇ¨Ìï©ÎãàÎã§</p>
                                                                                 <br />
                                                                                   <p>&nbsp;</p>
                                                                                 <br />
                                                                                   <span class="text02">TK!! (07-08-13 11:16)</span> </td>
                                                                             </tr>
                                                                           </table>
-                                                                        <!-- ∞¸∏Æ¿⁄ ¥‰∫Ø≥ªøÎ ≥° -->
+                                                                        <!-- Í¥ÄÎ¶¨Ïûê ÎãµÎ≥ÄÎÇ¥Ïö© ÎÅù -->
                                                                       </td>
                                                                     </tr>
                                                                 </table></td>
                                                               </tr>
                                                             </table>
-                                                            <!--≥ªøÎ√‚∑¬ Ω√¿€-->
-                                                            <!--≥ªøÎ√‚∑¬ ≥°--></td>
+                                                            <!--ÎÇ¥Ïö©Ï∂úÎ†• ÏãúÏûë-->
+                                                            <!--ÎÇ¥Ïö©Ï∂úÎ†• ÎÅù--></td>
                                                         </tr>
                                                       </table>
-                                                    <!-- ≥ªøÎ≥°--></td>
+                                                    <!-- ÎÇ¥Ïö©ÎÅù--></td>
                                                 </tr>
                                             </table></td>
                                           </tr>
                                         </table>
-                                      <!-- πŸ±˘≈◊¿Ã∫Ì ≥°-->
+                                      <!-- Î∞îÍπ•ÌÖåÏù¥Î∏î ÎÅù-->
                                     </td>
                                   </tr>
                               </table></td>
@@ -433,13 +470,13 @@ body {
                             <tr>
                               <td ><table width="100%">
                                   <tr>
-                                    <td style="font-family:Tahoma;font-size:9pt; padding-left:5px;" align="center"><a href="javascript:alert('ø©±‚∞° √≥¿Ω¿‘¥œ¥Ÿ.')"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/btn_pre.gif" width="36" height="18" border="0" align="absmiddle" /></a>&nbsp;&nbsp; <b>1</b> . <a href="javascript:__ps_OnMoveGoodsQAPage(2)">2</a> .
-                                      &nbsp; <a href="javascript:alert('ø©±‚∞° ≥°¿‘¥œ¥Ÿ.')"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/btn_next.gif" width="36" height="18" border="0" align="absmiddle" /></a> </td>
+                                    <td style="font-family:Tahoma;font-size:9pt; padding-left:5px;" align="center"><a href="javascript:alert('Ïó¨Í∏∞Í∞Ä Ï≤òÏùåÏûÖÎãàÎã§.')"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/btn_pre.gif" width="36" height="18" border="0" align="absmiddle" /></a>&nbsp;&nbsp; <b>1</b> . <a href="javascript:__ps_OnMoveGoodsQAPage(2)">2</a> .
+                                      &nbsp; <a href="javascript:alert('Ïó¨Í∏∞Í∞Ä ÎÅùÏûÖÎãàÎã§.')"><img src="http://www.who-z.com/iPageImages/POINTSHOP_ITEM_GOODSQA/sys_default/btn_next.gif" width="36" height="18" border="0" align="absmiddle" /></a> </td>
                                   </tr>
                               </table></td>
                             </tr>
                           </table>
-                        <!-- ªÛ«∞πÆ¿« ≈◊¿Ã∫Ì ≥°-->
+                        <!-- ÏÉÅÌíàÎ¨∏Ïùò ÌÖåÏù¥Î∏î ÎÅù-->
                       </td>
                     </tr>
                     <tr>

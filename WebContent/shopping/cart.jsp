@@ -1,4 +1,15 @@
+<%@page import="com.fashion.product.Product"%>
 <%@page contentType="text/html; charset=utf-8" %>
+<% request.setCharacterEncoding("utf-8"); %>
+<jsp:useBean id="product" class="com.fashion.product.Product"/>
+<jsp:setProperty property="*" name="product"/>
+
+<% 
+	session.setAttribute(Integer.toString(product.getProduct_id()), product);
+	Product dto = (Product)session.getAttribute(Integer.toString(product.getProduct_id()));
+	out.print(dto.getProduct_name());
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,7 +23,7 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-#mainNavi,#sub_category{color:#FFFFFF;text-align:center;font-family:"±¼¸²Ã¼", "µ¸¿òÃ¼","Arial"}
+#mainNavi,#sub_category{color:#FFFFFF;text-align:center;font-family:"êµ´ë¦¼ì²´", "ë‹ì›€ì²´","Arial"}
 .style3 {color: #FF0000}
 .style1 {	font-size: 20px;
 	font-weight: bold;
@@ -48,12 +59,12 @@ body {
       <tr>
         <td height="30"><table width="100%" height="30" border="0" cellpadding="0" cellspacing="0" bgcolor="#000000">
           <tr id="mainNavi" align="center">
-            <td>¸Ş´º1</td>
-            <td>¸Ş´º2</td>
-            <td>¸Ş´º3</td>
-            <td>¸Ş´º4</td>
-            <td>¸Ş´º5</td>
-            <td>¸Ş´º6</td>
+            <td>ë©”ë‰´1</td>
+            <td>ë©”ë‰´2</td>
+            <td>ë©”ë‰´3</td>
+            <td>ë©”ë‰´4</td>
+            <td>ë©”ë‰´5</td>
+            <td>ë©”ë‰´6</td>
           </tr>
         </table></td>
       </tr>
@@ -65,28 +76,28 @@ body {
           <tr height="50">
             <td width="150">&nbsp;</td>
             <td width="10">&nbsp;</td>
-            <td width="810" height="30" >»óÀ§ Ä«Å×°í¸®&lt; ÇÏÀ§ Ä«Å×°í¸® </td>
+            <td width="810" height="30" >ìƒìœ„ ì¹´í…Œê³ ë¦¬&lt; í•˜ìœ„ ì¹´í…Œê³ ë¦¬ </td>
           </tr>
           <tr>
             <td width="150" valign="top">
 			<table width="100%" id="sub_category" border="0" cellpadding="2" cellspacing="2" bgcolor="#333333">
               <tr>
-                <td>»óÇ° Ä«Å×°í¸® </td>
+                <td>ìƒí’ˆ ì¹´í…Œê³ ë¦¬ </td>
               </tr>
               <tr>
-                <td>Ä«Å×°í¸® 1</td>
+                <td>ì¹´í…Œê³ ë¦¬ 1</td>
               </tr>
               <tr>
-                <td>Ä«Å×°í¸® 1</td>
+                <td>ì¹´í…Œê³ ë¦¬ 1</td>
               </tr>
               <tr>
-                <td>Ä«Å×°í¸® 1</td>
+                <td>ì¹´í…Œê³ ë¦¬ 1</td>
               </tr>
               <tr>
-                <td>Ä«Å×°í¸® 1</td>
+                <td>ì¹´í…Œê³ ë¦¬ 1</td>
               </tr>
               <tr>
-                <td>Ä«Å×°í¸® 1</td>
+                <td>ì¹´í…Œê³ ë¦¬ 1</td>
               </tr>
               
               <tr>
@@ -102,7 +113,7 @@ body {
                 <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td width="35" valign="top"><img src="/images/cart/cart_bg01.gif" width="35" height="29" /></td>
-                      <td width="640"><!-- »óÇ°¸®½ºÆ® ======================================================================= -->
+                      <td width="640"><!-- ìƒí’ˆë¦¬ìŠ¤íŠ¸ ======================================================================= -->
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                               <td height="1" colspan="11" bgcolor="d5d5d5"></td>
@@ -130,8 +141,8 @@ body {
                                   <tr>
                                     <td width="115" align="center"><img src="/images/cart/cart_sample.gif" width="87" height="87" /></td>
                                     <td width="188">Leary Trail<br />
-                                      ¿É¼Ç : »ö»ó¡æ Navy, »çÀÌÁî¡æ 30<br />
-                                      <strong>81,000¿ø</strong> </td>
+                                      ì˜µì…˜ : ìƒ‰ìƒâ†’ Navy, ì‚¬ì´ì¦ˆâ†’ 30<br />
+                                      <strong>81,000ì›</strong> </td>
                                   </tr>
                               </table></td>
                               <td height="87"></td>
@@ -148,14 +159,14 @@ body {
                                   <option>9</option>
                                   <option>10</option>
                                 </select>
-                                °³ </label></td>
+                                ê°œ </label></td>
                               <td height="87"></td>
                               <td height="87" align="center">81,000</td>
                               <td height="87"></td>
-                              <!--»èÁ¦¹öÆ°-->
+                              <!--ì‚­ì œë²„íŠ¼-->
                               <td height="87" align="center"><img src="/images/cart/btn_delete_img.gif" width="29" height="16" /></td>
                               <td height="87"></td>
-                              <!-- º¸°üÇÔ¹öÆ° -->
+                              <!-- ë³´ê´€í•¨ë²„íŠ¼ -->
                               <td height="87" align="center"><img src="/images/cart/btn_custody_img.gif" width="44" height="16" /></td>
                             </tr>
                             <tr>
@@ -168,8 +179,8 @@ body {
                                   <tr>
                                     <td width="115" align="center"><img src="/images/cart/cart_sample.gif" width="87" height="87" /></td>
                                     <td width="188">Leary Trail<br />
-                                      ¿É¼Ç : »ö»ó¡æ Navy, »çÀÌÁî¡æ 30<br />
-                                      <strong>81,000¿ø</strong></td>
+                                      ì˜µì…˜ : ìƒ‰ìƒâ†’ Navy, ì‚¬ì´ì¦ˆâ†’ 30<br />
+                                      <strong>81,000ì›</strong></td>
                                   </tr>
                               </table></td>
                               <td height="87"></td>
@@ -185,7 +196,7 @@ body {
                                   <option>9</option>
                                   <option>10</option>
                                 </select>
-                                °³</td>
+                                ê°œ</td>
                               <td height="87"></td>
                               <td height="87" align="center">81,000</td>
                               <td height="87"></td>
@@ -197,7 +208,7 @@ body {
                               <td height="1" colspan="11" bgcolor="d5d5d5"></td>
                             </tr>
                             <tr>
-                              <td height="36" colspan="11" align="center">¦¬ ÃÑ ÁÖ¹®±İ¾× <span class="style3">162,000</span>¿ø </td>
+                              <td height="36" colspan="11" align="center">â” ì´ ì£¼ë¬¸ê¸ˆì•¡ <span class="style3">162,000</span>ì› </td>
                             </tr>
                             <tr>
                               <td height="1" colspan="11" align="center"><a href="step1.html"><img src="../images/cart/btn_cash.gif" width="70" height="26" border="0" /></a>&nbsp;<img src="../images/cart/btn_back.gif" width="70" height="26" /></td>

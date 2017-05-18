@@ -15,6 +15,15 @@ public class Product {
 	private String color;
 	private String img;
 	private String detail;
+	private int ea;
+
+	public int getEa() {
+		return ea;
+	}
+
+	public void setEa(int ea) {
+		this.ea = ea;
+	}
 
 	public int getProduct_id() {
 		return product_id;

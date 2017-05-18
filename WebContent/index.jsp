@@ -1,4 +1,16 @@
+<%@page import="common.file.FileManager"%>
+<%@page import="com.fashion.product.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.fashion.product.PlanProduct"%>
+<%@page import="com.fashion.product.PlanProductDAO"%>
+<%@page import="com.fashion.product.Plan"%>
+<%@page import="com.fashion.product.PlanDAO"%>
 <%@ page contentType="text/html; charset=utf-8"%>
+<%! PlanDAO planDAO = new PlanDAO(); %>
+<%! PlanProductDAO planProductDAO = new PlanProductDAO(); %>
+<%
+	List<Plan> planList = planDAO.selectAll();
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -50,15 +62,7 @@
 				<tr>
 					<td>
 						<!--메인 네비게이션 begin  -->
-						<table id="mainNavi" bgcolor="#000000" width="100%" cellpadding="0" cellspacing="0">
-							<tr>
-								<td>Top</td>
-								<td>DownWear</td>
-								<td>Shoes</td>
-								<td>Accessory</td>
-								<td>Leather</td>
-							</tr>
-						</table>
+						<%@ include file="/inc/main_navi.jsp" %>
 						<!--메인 네비게이션 end -->
 					</td>
 				</tr>				
@@ -128,8 +132,10 @@
 		<td>
 		<!--전체 컨텐츠 묶음 테이블  begin-->
 			<table width="100%" cellpadding="0" cellspacing="0">
+			<% for(int a=0; a<planList.size(); a++){ %>
+			<% Plan plan = planList.get(a); %>
 				<tr>
-					<td style="font-weight:bold;color:#FF6633;height:30px;background:#FFFFCC">Best Product</td>				
+					<td style="font-weight:bold;color:#FF6633;height:30px;background:#FFFFCC"><%=plan.getPlan_title() %></td>				
 				</tr>
 				<tr id="bestProduct">
 					<td>
@@ -137,18 +143,23 @@
 						<table cellspacing="0" cellpadding="0">
 							<tr>
 								<!-- 반복 구간 begin -->
-								<%for(int i=0;i<7;i++){%>
+								<% int plan_id=plan.getPlan_id();%>
+								<% List<PlanProduct> planProductList = planProductDAO.selectJoin(plan_id); %>
+								
+								<%for(int i=0;i<planProductList.size();i++){%>
+								<% PlanProduct planProduct = planProductList.get(i); %>
+								<% Product product = planProduct.getProduct(); %>
 				                  <td width="120" valign="top"><table  width="100%" border="0" cellspacing="0" cellpadding="0">
 				                    <tr>
-				                      <td><a href="/shopping/detail.html"><img src="/product_img/004060-000658_S_120_120[1].jpg" width="120" height="120" border="0" /></a></td>
+				                      <td><a href="/shopping/detail.jsp?product_id=<%=product.getProduct_id() %>"><img src="/product/<%=product.getProduct_id() %>.<%=FileManager.getExt(product.getImg()) %>" width="120" height="120" border="0" /></a></td>
 				                    </tr>
 				                    <tr>
 				                      <td>&nbsp;</td>
 				                    </tr>
 				                    <tr>
-				                      <td class="product_box"><img src="/images/shopping/icon_best.gif" width="28"> POLO Ralh 
-				                        &lt;남여공용&gt;레드<br />
-				                        <strong>19,500원 (<span class="style3">↓</span>60%)</strong></td>
+				                      <td class="product_box"><img src="/images/shopping/icon_best.gif" width="28"> <%=product.getProduct_name() %> 
+				                        <<%=product.getGender() %>용><br />
+				                        <strong><%=product.getPrice() %>원  (<span class="style3">↓</span><%=(int)(((float)product.getDiscount()/product.getPrice())*100) %> %)</strong></td>
 				                    </tr>
 				                  </table></td>
 				                  <td width="18">&nbsp;</td>
@@ -159,68 +170,9 @@
 					<!-- 상품 테이블 end -->
 					</td>				
 				</tr>
-				<tr>
-					<td style="font-weight:bold;color:#FF6633;height:30px;background:#FFFFCC">New Product</td>				
-				</tr>
-				<tr id="newProduct">
-					<td>
-						<!-- 상품 테이블 begin-->
-						<table cellspacing="0" cellpadding="0">
-							<tr>
-								<!-- 반복 구간 begin -->
-								<%for(int i=0;i<7;i++){%>
-				                  <td width="120" valign="top"><table  width="100%" border="0" cellspacing="0" cellpadding="0">
-				                    <tr>
-				                      <td><a href="/shopping/detail.html"><img src="/product_img/004060-000658_S_120_120[1].jpg" width="120" height="120" border="0" /></a></td>
-				                    </tr>
-				                    <tr>
-				                      <td>&nbsp;</td>
-				                    </tr>
-				                    <tr>
-				                      <td class="product_box"><img src="/images/shopping/icon_best.gif" width="28"> POLO Ralh 
-				                        &lt;남여공용&gt;레드<br />
-				                        <strong>19,500원 (<span class="style3">↓</span>60%)</strong></td>
-				                    </tr>
-				                  </table></td>
-				                  <td width="18">&nbsp;</td>
-				                  <%}%>
-				                  <!-- 반복 구간 end -->							
-							</tr>
-						</table>
-					<!-- 상품 테이블 end -->
-					</td>				
-				</tr>
-				<tr>
-					<td style="font-weight:bold;color:#FF6633;height:30px;background:#FFFFCC">Event Product</td>				
-				</tr>
-				<tr id="eventProduct">
-					<td>
-					<!-- 상품 테이블 begin-->
-						<table cellspacing="0" cellpadding="0">
-							<tr>
-								<!-- 반복 구간 begin -->
-								<%for(int i=0;i<7;i++){%>
-				                  <td width="120" valign="top"><table  width="100%" border="0" cellspacing="0" cellpadding="0">
-				                    <tr>
-				                      <td><a href="/shopping/detail.html"><img src="/product_img/004060-000658_S_120_120[1].jpg" width="120" height="120" border="0" /></a></td>
-				                    </tr>
-				                    <tr>
-				                      <td>&nbsp;</td>
-				                    </tr>
-				                    <tr>
-				                      <td class="product_box"><img src="/images/shopping/icon_best.gif" width="28"> POLO Ralh 
-				                        &lt;남여공용&gt;레드<br />
-				                        <strong>19,500원 (<span class="style3">↓</span>60%)</strong></td>
-				                    </tr>
-				                  </table></td>
-				                  <td width="18">&nbsp;</td>
-				                  <%}%>
-				                  <!-- 반복 구간 end -->							
-							</tr>
-						</table>
-					<!-- 상품 테이블 end -->					
-					</td>				
-				</tr>
+			<% } %>
+			
+			
 			</table>
 		<!--전체 컨텐츠 묶음 테이블  end-->
 		</td>

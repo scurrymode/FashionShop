@@ -34,7 +34,7 @@ public class FactoryManager {
 	}
 	//技记 掘扁
 	public SqlSession getSession(){
-		SqlSession session = factory.openSession(true);
+		SqlSession session = factory.openSession();
 		return session;	
 	}
 	//技记 摧扁

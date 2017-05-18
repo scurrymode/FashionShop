@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlanProduct">
+	<insert id="insert" parameterType="PlanProduct">
+		insert into planproduct(planproduct_id, plan_id, product_id)
+		values (seq_planproduct.nextval, #{plan_id}, #{product_id})
+	</insert>
+	
+	<!--  product 테이블과의 조인 1:1 association -->
+	<resultMap type="PlanProduct" id="joinMap">
+		<result column="product_id" property="product_id"/>
+		<association property="product" javaType="Product" select="selectProduct" column="product_id"/>
+	</resultMap>
+	<select id="selectJoin" resultMap="joinMap" parameterType="int">
+		select * from planproduct where plan_id=#{plan_id}
+	</select>
+	<select id="selectProduct" resultType="Product">
+		select * from product where product_id=#{product_id}
+	</select>
+</mapper>

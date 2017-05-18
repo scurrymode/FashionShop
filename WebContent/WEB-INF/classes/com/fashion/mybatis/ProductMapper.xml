@@ -12,5 +12,15 @@
 		select seq_product.currval as seq from dual
 	</selectKey>
 </insert>
+
+<select id="selectAll" resultType="Product">
+	select * from product order by product_id asc
+</select>
+
+<select id="select" resultType="Product" parameterType="int">
+	select * from product where product_id=#{product_id}
+</select>
+
+
 	
 </mapper>
