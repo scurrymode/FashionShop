@@ -1,4 +1,8 @@
-<%@page contentType="text/html;charset=utf-8" %>
+<%@page import="common.file.FileManager"%>
+<%@page import="com.fashion.product.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page contentType="text/html;charset=utf-8"%>
+<% ArrayList<Product> list = (ArrayList)session.getAttribute("cart"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,38 +16,41 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-#mainNavi{color:#FFFFFF;text-align:center;font-family:"±º∏≤√º", "µ∏øÚ√º","Arial"}
+#mainNavi{color:#FFFFFF;text-align:center;font-family:"Íµ¥Î¶ºÏ≤¥", "ÎèãÏõÄÏ≤¥","Arial"}
 .style1 {color: #FF0000}
 -->
 </style>
-<script type="text/JavaScript">
-<!--
-function MM_swapImgRestore() { //v3.0
-  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+<script>
+function autoAddr(v){
+	if(v=="yes"){
+		form1.r_name.value=form1.c_name.value;
+		form1.r_phone1.value=form1.c_phone1.value;
+		form1.r_phone2.value=form1.c_phone2.value;
+		form1.r_phone3.value=form1.c_phone3.value;
+		form1.r_post1.value=form1.post1.value;
+		form1.r_post2.value=form1.post2.value;
+		form1.r_addr1.value=form1.c_addr1.value;
+		form1.r_addr2.value=form1.c_addr2.value;
+		form1.msg.focus();
+	}else if(v=="no"){
+		form1.r_name.value="";
+		form1.r_phone1.value="";
+		form1.r_phone2.value="";
+		form1.r_phone3.value="";
+		form1.r_post1.value="";
+		form1.r_post2.value="";
+		form1.r_addr1.value="";
+		form1.r_addr2.value="";
+	}
 }
-
-function MM_preloadImages() { //v3.0
-  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+function goStep2(){
+	form1.action="order.jsp";
+	form1.submit();
 }
-
-function MM_findObj(n, d) { //v4.01
-  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
-  if(!x && d.getElementById) x=d.getElementById(n); return x;
-}
-
-function MM_swapImage() { //v3.0
-  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-}
-//-->
 </script>
 </head>
-<body onload="MM_preloadImages('images/sanction/btn_cash_over.gif','images/sanction/btn_back_over.gif')">
+<body>
+<form name="form1" method="post">
 <table align="center" width="970" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="722" height="60" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -69,12 +76,12 @@ function MM_swapImage() { //v3.0
       <tr>
         <td height="30"><table width="100%" height="30" border="0" cellpadding="0" cellspacing="0" bgcolor="#000000">
           <tr id="mainNavi" align="center">
-            <td>∏ﬁ¥∫1</td>
-            <td>∏ﬁ¥∫2</td>
-            <td>∏ﬁ¥∫3</td>
-            <td>∏ﬁ¥∫4</td>
-            <td>∏ﬁ¥∫5</td>
-            <td>∏ﬁ¥∫6</td>
+            <td>Î©îÎâ¥1</td>
+            <td>Î©îÎâ¥2</td>
+            <td>Î©îÎâ¥3</td>
+            <td>Î©îÎâ¥4</td>
+            <td>Î©îÎâ¥5</td>
+            <td>Î©îÎâ¥6</td>
           </tr>
         </table></td>
       </tr>
@@ -109,48 +116,33 @@ function MM_swapImage() { //v3.0
               <tr>
                 <td height="3" colspan="7" bgcolor="d5d5d5"></td>
               </tr>
+              <% int sum=0; %>
+              <% for(int i=0; i<list.size(); i++){ %>
+              <% Product product = list.get(i); %>
+              <% sum+=product.getEa()*product.getDiscount(); %>
               <tr>
-                <td height="87">1179818515</td>
+                <td height="87"><%=product.getProduct_id() %></td>
                 <td height="87"></td>
                 <td height="87"><table width="100%" height="87" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td width="115" align="center"><img src="/images/cart/cart_sample.gif" width="87" height="87" /></td>
-                      <td width="188">Leary Trail<br />
-                        ø…º« : ªˆªÛ°Ê Navy, ªÁ¿Ã¡Ó°Ê 30<br />
-                        <strong>81,000ø¯</strong> </td>
+                      <td width="115" align="center"><img src="/product/<%=product.getProduct_id() %>.<%=FileManager.getExt(product.getImg())%>" width="87" height="87" /></td>
+                      <td width="188"><%=product.getProduct_name() %><br />
+                        ÏòµÏÖò : ÏÉâÏÉÅ‚Üí <%=product.getColor() %>, ÏÇ¨Ïù¥Ï¶à‚Üí <%=product.getPsize() %><br />
+                        <strong><%=product.getDiscount() %>Ïõê</strong> </td>
                     </tr>
                 </table></td>
                 <td height="87"></td>
-                <td height="87" align="center"><input name="text" type="text" style="width:21px;" value="" />
-                  ∞≥ </td>
+                <td height="87" align="center"><input name="text" type="text" style="width:21px;" value="<%=product.getEa()%>" />
+                  Í∞ú </td>
                 <td height="87"></td>
-                <td height="87" align="center">81,000</td>
+                <td height="87" align="center"><%=product.getDiscount()*product.getEa() %></td>
               </tr>
               <tr>
                 <td height="1" colspan="7" bgcolor="d5d5d5"></td>
               </tr>
+              <% } %>
               <tr>
-                <td height="87">1179818515</td>
-                <td height="87"></td>
-                <td height="87"><table width="100%" height="87" border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td width="115" align="center"><img src="/images/cart/cart_sample.gif" width="87" height="87" /></td>
-                      <td width="188">Leary Trail<br />
-                        ø…º« : ªˆªÛ°Ê Navy, ªÁ¿Ã¡Ó°Ê 30<br />
-                        <strong>81,000ø¯</strong></td>
-                    </tr>
-                </table></td>
-                <td height="87"></td>
-                <td height="87" align="center"><input name="text2" type="text" style="width:21px;" value="" />
-                  ∞≥</td>
-                <td height="87"></td>
-                <td height="87" align="center">81,000</td>
-              </tr>
-              <tr>
-                <td height="1" colspan="7" bgcolor="d5d5d5"></td>
-              </tr>
-              <tr>
-                <td height="36" colspan="7" align="center">¶¨ <strong>√— ¡÷πÆ±›æ◊ <span class="style1">162,000</span>ø¯</strong> </td>
+                <td height="36" colspan="7" align="center">‚îÅ <strong>Ï¥ù Ï£ºÎ¨∏Í∏àÏï° <span class="style1"><%=sum %></span>Ïõê</strong> </td>
               </tr>
               <tr>
                 <td height="1" colspan="7" bgcolor="d5d5d5"></td>
@@ -176,55 +168,61 @@ function MM_swapImage() { //v3.0
                 <td height="1" colspan="4" bgcolor="d5d5d5"></td>
               </tr>
               <tr>
-                <td height="13" colspan="4"></td>
+                 <td width="2" height="26"></td>
+                <td width="101">ÌöåÏõêÏó¨Î∂Ä </td>
+                <td width="9">:</td>
+                <td width="462"><input type="radio" name="isMember"  value="member" class="radio" />
+                        ÌöåÏõêÍµ¨Îß§ &nbsp;
+                        <input type="radio" name="isMember"  value="guest" class="radio" checked />
+                        ÎπÑÌöåÏõêÍµ¨Îß§</td>
               </tr>
               <tr>
                 <td width="2" height="26"></td>
-                <td width="101">¡÷πÆ«œΩ√¥¬ ∫– </td>
+                <td width="101">Ï£ºÎ¨∏ÌïòÏãúÎäî Î∂Ñ </td>
                 <td width="9">:</td>
-                <td width="462"><input type="text" name="name" style="width:70px;" value="" /></td>
+                <td width="462"><input type="text" name="c_name" style="width:70px;" value="ÏµúÏßÄÎØº" /></td>
               </tr>
               <tr>
                 <td height="26"></td>
-                <td height="26">»ﬁ¥Î¿¸»≠</td>
+                <td height="26">Ìú¥ÎåÄÏ†ÑÌôî</td>
                 <td>:</td>
                 <td><label>
-                  <select name="select">
-                    <option>010</option>
-                    <option>011</option>
-                    <option>016</option>
-                    <option>017</option>
-                    <option>018</option>
-                    <option>019</option>
+                  <select name="c_phone1">
+                    <option value="010" selected>010</option>
+                    <option value="011">011</option>
+                    <option value="016">016</option>
+                    <option value="017">017</option>
+                    <option value="018">018</option>
+                    <option value="019">019</option>
                   </select>
                   </label>
                   -
-                  <input type="text" name="hphone2" style="width:34px;" maxlength="4" />
+                  <input type="text" name="c_phone2" style="width:34px;" maxlength="4" value="8746"/>
                   -
-                  <input type="text" name="hphone3" style="width:34px;" maxlength="4" /></td>
+                  <input type="text" name="c_phone3" style="width:34px;" maxlength="4" value="8746"/></td>
               </tr>
               <tr>
                 <td height="26"></td>
-                <td height="26">¿Ã∏ﬁ¿œ</td>
+                <td height="26">Ïù¥Î©îÏùº</td>
                 <td>:</td>
-                <td><input name="text3" type="text" style="width:178px;" value="" /></td>
+                <td><input name="c_email" type="text" style="width:178px;" value="naver@gmail.com" /></td>
               </tr>
               <tr>
                 <td valign="top"  style="padding-top:3px"></td>
-                <td valign="top"  style="padding-top:3px">¡÷º“</td>
+                <td valign="top"  style="padding-top:3px">Ï£ºÏÜå</td>
                 <td valign="top"  style="padding-top:3px">:</td>
                 <td><table width="100%" height="60" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td width="90"><input name="post1" type="text" style="width:28px;" />
+                      <td width="90"><input name="post1" type="text" style="width:28px;" value="152"/>
                         -
-                        <input name="post2" type="text" style="width:28px;" /></td>
+                        <input name="post2" type="text" style="width:28px;" value="131"/></td>
                       <td width="430"><img src="/images/memberjoin/memberjoin_addrseh.gif" width="79" height="17" /></td>
                     </tr>
                     <tr>
-                      <td colspan="2"><input name="addr1" type="text" style="width:310px;" /></td>
+                      <td colspan="2"><input name="c_addr1" type="text" style="width:310px;" value="ÏÑúÏö∏Ïãú Ïö©ÏÇ∞Íµ¨ Ïù¥ÌÉúÏõêÎèô"/></td>
                     </tr>
                     <tr>
-                      <td colspan="2"><input name="addr2" type="text" style="width:310px;" /></td>
+                      <td colspan="2"><input name="c_addr2" type="text" style="width:310px;" value="83-1Ìò∏ Ïä§Î™®ÌÇ§ÏÇ¥Î£¨"/></td>
                     </tr>
                 </table></td>
               </tr>
@@ -255,75 +253,63 @@ function MM_swapImage() { //v3.0
               </tr>
               <tr>
                 <td width="2" height="26"></td>
-                <td width="101">¡§∫∏µø¿œ »Æ¿Œ </td>
+                <td width="101">Ï†ïÎ≥¥ÎèôÏùº ÌôïÏù∏ </td>
                 <td width="9">:</td>
                 <td width="462"><table width="100%" height="26" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td width="180">¡÷πÆ∞Ì∞¥ ¡§∫∏øÕ µø¿œ«œΩ ¥œ±Ó? </td>
+                      <td width="180">Ï£ºÎ¨∏Í≥†Í∞ù Ï†ïÎ≥¥ÏôÄ ÎèôÏùºÌïòÏã≠ÎãàÍπå? </td>
                       <td><label>
-                        <input type="radio" name="check"  value="radiobutton" id="radiobutton" class="radio" />
-                        øπ &nbsp;
-                        <input type="radio" name="check"  value="radiobutton" id="radio" class="radio" />
-                        æ∆¥œø¿</label>
+                        <input type="radio" name="same"  value="yes" id="radiobutton" class="radio" onClick="autoAddr(this.value)" />
+                        Ïòà &nbsp;
+                        <input type="radio" name="same"  value="no" id="radio" class="radio" onClick="autoAddr(this.value)" />
+                        ÏïÑÎãàÏò§</label>
                           </label></td>
                     </tr>
                 </table></td>
               </tr>
               <tr>
                 <td height="26"></td>
-                <td height="26">¡÷πÆ«œΩ√¥¬ ∫– </td>
+                <td height="26">Î∞õÏúºÏã§ Î∂Ñ </td>
                 <td>:</td>
-                <td width="462"><input type="text" name="name2" style="width:70px;" value="" /></td>
+                <td width="462"><input type="text" name="r_name" style="width:70px;" value="" /></td>
               </tr>
               <tr>
                 <td height="26"></td>
-                <td height="26">¿¸»≠π¯»£</td>
-                <td>:</td>
-                <td><label>
-                  <input type="text" name="phone12" style="width:34px;" maxlength="4" />
-                  -
-                  <input type="text" name="phone22" style="width:34px;" maxlength="4" />
-                  -
-                  <input type="text" name="phone32" style="width:34px;" maxlength="4" />
-                </label></td>
-              </tr>
-              <tr>
-                <td height="26"></td>
-                <td height="26">»ﬁ¥Î¿¸»≠</td>
+                <td height="26">Ìú¥ÎåÄÏ†ÑÌôî</td>
                 <td>:</td>
                 <td>
-				<input type="text" name="hphone22" style="width:34px;" maxlength="4" />
+				<input type="text" name="r_phone1" style="width:34px;" maxlength="4" />
                   -
-                  <input type="text" name="hphone22" style="width:34px;" maxlength="4" />
+                  <input type="text" name="r_phone2" style="width:34px;" maxlength="4" />
                   -
-                  <input type="text" name="hphone32" style="width:34px;" maxlength="4" />
-                  &nbsp;<strong>[∫Œ¿ÁΩ√ ø¨∂Ù∞°¥…«— π¯»£∏¶ ¿˚æÓ¡÷ººø‰]</strong></td>
+                  <input type="text" name="r_phone3" style="width:34px;" maxlength="4" />
+                  &nbsp;<strong>[Î∂ÄÏû¨Ïãú Ïó∞ÎùΩÍ∞ÄÎä•Ìïú Î≤àÌò∏Î•º Ï†ÅÏñ¥Ï£ºÏÑ∏Ïöî]</strong></td>
               </tr>
               <tr>
                 <td valign="top"  style="padding-top:3px"></td>
-                <td valign="top"  style="padding-top:3px">¡÷º“</td>
+                <td valign="top"  style="padding-top:3px">Ï£ºÏÜå</td>
                 <td valign="top"  style="padding-top:3px">:</td>
                 <td><table width="100%" height="60" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td width="90"><input name="post12" type="text" style="width:28px;" />
+                      <td width="90"><input name="r_post1" type="text" style="width:28px;" />
                         -
-                        <input name="post22" type="text" style="width:28px;" /></td>
+                        <input name="r_post2" type="text" style="width:28px;" /></td>
                       <td width="430"><img src="/images/memberjoin/memberjoin_addrseh.gif" width="79" height="17" /></td>
                     </tr>
                     <tr>
-                      <td colspan="2"><input name="addr12" type="text" style="width:310px;" /></td>
+                      <td colspan="2"><input name="r_addr1" type="text" style="width:310px;" /></td>
                     </tr>
                     <tr>
-                      <td colspan="2"><input name="addr22" type="text" style="width:310px;" /></td>
+                      <td colspan="2"><input name="r_addr2" type="text" style="width:310px;" /></td>
                     </tr>
                 </table></td>
               </tr>
               <tr>
                 <td height="26"></td>
-                <td height="26">πËº€Ω√ ∏ﬁΩ√¡ˆ </td>
+                <td height="26">Î∞∞ÏÜ°Ïãú Î©îÏãúÏßÄ </td>
                 <td>:</td>
-                <td><input name="text4" type="text" style="width:278px;" value="" />
-                  &nbsp;<strong>[30¿⁄¿Ã≥ª]</strong></td>
+                <td><input name="msg" type="text" style="width:278px;" value="" />
+                  &nbsp;<strong>[30ÏûêÏù¥ÎÇ¥]</strong></td>
               </tr>
             </table></td>
             <td>&nbsp;</td>
@@ -347,60 +333,41 @@ function MM_swapImage() { //v3.0
               </tr>
               <tr>
                 <td width="2" height="26"></td>
-                <td width="101">∞·¡¶ πÊπ˝º±≈√ </td>
+                <td width="101">Í≤∞Ï†ú Î∞©Î≤ïÏÑ†ÌÉù </td>
                 <td width="9">:</td>
                 <td width="462"><label>
-                  <input type="radio" name="check"  value="radiobutton" id="radio2" class="radio" />
-                  ƒ´µÂ∞·¡¶
+                  <input type="radio" name="pay_method"  value="card" id="radio2" class="radio" />
+                  Ïπ¥ÎìúÍ≤∞Ï†ú
                   &nbsp;
-                                <input type="radio" name="check"  value="radiobutton" id="radio3" class="radio" />
-                  π´≈Î¿Â¿‘±› </label>
+                  <input type="radio" name="pay_method"  checked value=" Î¨¥ÌÜµÏû•" id="radio3" class="radio" />
+                  Î¨¥ÌÜµÏû•ÏûÖÍ∏à </label>
                     </label></td>
               </tr>
               <tr>
                 <td height="26"></td>
-                <td height="26">√— ±∏∏≈±›æ◊ </td>
+                <td height="26">Ï¥ù Íµ¨Îß§Í∏àÏï° </td>
                 <td>:</td>
-                <td><input name="text42" type="text" style="width:58px;" value="" />
-                  ø¯</td>
-              </tr>
-              <tr>
-                <td height="26"></td>
-                <td height="26">πËº€∫Ò</td>
-                <td>:</td>
-                <td><label>
-                  <input name="text32" type="text" style="width:58px;" value="" />
-                  ø¯</label></td>
-              </tr>
-              <tr>
-                <td height="26"></td>
-                <td height="26">¿˚∏≥±›ªÁøÎ</td>
-                <td>:</td>
-                <td><input name="text5" type="text" style="width:58px;" value="" />
-                  ªÁøÎ«“ ∆˜¿Œ∆Æ∏¶ ¿‘∑¬«ÿ ¡÷ººø‰. </td>
-              </tr>
-              <tr>
-                <td ></td>
-                <td height="26">∞·¡¶±›æ◊</td>
-                <td >:</td>
-                <td><input name="text5" type="text" style="width:58px;" value="" />
-                  ø¯</td>
+                <td><input name="total_price" type="text" style="width:58px;" value="<%=sum %>" />
+                  Ïõê</td>
               </tr>
               <tr>
                 <td valign="top"  style="padding-top:3px"></td>
-                <td height="26" valign="top"  style="padding-top:3px">¿‘±›¿∫«‡</td>
+                <td height="26" valign="top"  style="padding-top:3px">ÏûÖÍ∏àÏùÄÌñâ</td>
                 <td valign="top"  style="padding-top:3px">&nbsp;</td>
                 <td><label>
-                  <select name="select3">
-                    <option selected="selected">±ππŒ¿∫«‡ 111111-11-111111 (πŒ¡¯»£)</option>
-                        </select>
-                </label></td>
+                  <select name="bank">
+                    <option value="Íµ≠ÎØºÏùÄÌñâ">Íµ≠ÎØºÏùÄÌñâ 111111-11-111111 (Ïµú)</option>
+                    <option value="Ïö∞Î¶¨ÏùÄÌñâ">Ïö∞Î¶¨ÏùÄÌñâ 222222-22-222222 (ÏßÄ)</option>
+                    <option value="Ïã†ÌïúÏùÄÌñâ">Ïã†ÌïúÏùÄÌñâ 111111-11-111111 (ÎØº)</option>
+                  </select>
+                </label>
+                </td>
               </tr>
               <tr>
                 <td valign="top"  style="padding-top:3px"></td>
-                <td height="26" valign="top"  style="padding-top:3px">¿‘±›¿⁄¿Ã∏ß</td>
+                <td height="26" valign="top"  style="padding-top:3px">ÏûÖÍ∏àÏûêÏù¥Î¶Ñ</td>
                 <td valign="top"  style="padding-top:3px">&nbsp;</td>
-                <td><input name="text22" type="text" style="width:58px;" value="" /></td>
+                <td><input name="pay_name" type="text" style="width:58px;" value="" /></td>
               </tr>
               <tr>
                 <td height="26" colspan="4"></td>
@@ -415,7 +382,8 @@ function MM_swapImage() { //v3.0
             <td height="24">&nbsp;</td>
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="300" align="right"><a href="step2.html" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image19','','images/sanction/btn_cash_over.gif',1)"><img src="../images/cart/btn_cash.gif" width="70" height="26" border="0" /></a><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image17','','images/sanction/btn_cash_over.gif',1)"></a></td>
+                <td width="300" align="right">
+                <img src="../images/cart/btn_cash.gif" width="70" height="26" border="0" onClick="goStep2()"/>
                 <td width="20">&nbsp;</td>
                 <td width="411"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image20','','images/sanction/btn_back_over.gif',1)"><img src="/images/sanction/btn_back.gif" name="Image20" width="70" height="26" border="0" id="Image20" /></a><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image18','','images/sanction/btn_back_over.gif',1)"></a></td>
               </tr>
@@ -440,5 +408,6 @@ function MM_swapImage() { //v3.0
     </table></td>
   </tr>
 </table>
+</form>
 </body>
 </html>

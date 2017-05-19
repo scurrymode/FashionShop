@@ -32,7 +32,7 @@ body {
 <script>
 function goCart(){
 	form1.method="post";
-	form1.action="cart.jsp";
+	form1.action="pre_cart.jsp";
 	form1.submit();
 }
 </script>
